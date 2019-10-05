@@ -6,17 +6,15 @@ use CDash\Model\Build;
 
 class BuildController extends Controller
 {
-    public function summary($build_id)
+    public function summary($build_id = null)
     {
         $build = new Build();
-        $build->FillFromId($build_id);
-
-        $store = [
-            'build' => $build,
-        ];
+        if ($build_id) {
+            $build->FillFromId($build_id);
+        }
 
         return view('build.summary')
             ->with('title', 'Build Summary')
-            ->with('store', $store);
+            ->with('build', json_encode($build));
     }
 }

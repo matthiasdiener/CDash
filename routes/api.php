@@ -13,9 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::apiResources([
-    'builds' => 'Api\BuildController',
-]);
+Route::group(['prefix' => 'v2', 'namespace' => 'Api\v2'], function () {
+    Route::get('builds/{id}/previous', 'BuildController@previous');
+    Route::apiResources([
+        'builds' => 'BuildController',
+    ]);
+});
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

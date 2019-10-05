@@ -33,7 +33,7 @@ Route::get('ping', function (Response $response) {
 });
 
 Route::get('/image/{image}', 'ImageController@image');
-Route::get('/build/{id}', 'BuildController@summary');
+Route::get('/build/summary/{id?}', 'BuildController@summary');
 
 // this *MUST* be the last route in the file
 Route::any('{url}', 'CDash')->where('url', '.*');
