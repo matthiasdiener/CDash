@@ -1,4 +1,6 @@
 <page-header
+    :build="{{ $build }}"
+    :project="{{ $project }}"
+    :uri="{{ $uri }}"
     :user="{{ $user }}"
-    :menu="{{ $menu }}"
 ></page-header>
