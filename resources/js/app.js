@@ -1,5 +1,7 @@
 import './bootstrap';
 import PageHeader from "./components/PageHeader";
+import Event from "./Core/Event";
+import Vuex from 'vuex';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -28,7 +30,64 @@ import PageHeader from "./components/PageHeader";
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+const store = new Vuex.Store({
+  state: {
+    build: {},
+    project: {},
+    uri: {},
+    user: {},
+  },
+
+  mutations: {
+    build(state, build) {
+      state.build = build;
+    },
+
+    project(state, project) {
+      state.project = project;
+    },
+
+    uri (state, uri) {
+      state.uri = uri;
+    },
+
+    user (state, user) {
+      state.user = user;
+    },
+  },
+
+  actions: {
+    getPreviousBuild (context) {
+      const version = this.state.uri.api.version;
+      const buildId = this.state.build.id;
+
+      const url = `/api/${version}/builds/${buildId}/previous`;
+      axios.get(url)
+        .then((response => {
+          Object.keys(response.data).forEach(key => {
+            context.commit(key, response.data[key])
+          });
+        }))
+        .catch(error => console.error(error));
+    },
+  }
+
+});
+
 const app = new Vue({
-    el: '#app',
-  components: {PageHeader}
+  el: '#app',
+  components: {PageHeader},
+  store,
+  methods: {
+      pageUpdate (props) {
+        Object.keys(props).forEach((key) => {
+          this[key] = props[key];
+        });
+        console.log(this.$options.propsData);
+      }
+  },
+
+  mounted () {
+    Event.listen('page-update', this.pageUpdate);
+  }
 });
