@@ -3,7 +3,7 @@
         <ul class="projectnav_controls clearfix">
             <li id="header-nav-previous-btn" :class="previousClass">
 
-                <a :href="previous">
+                <a @click="onPress('previous-press')">
                     <svg id="i-chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
                         <path d="M20 30 L8 16 20 2" />
                     </svg>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+    import Event from "../../Core/Event";
     export default {
         name: "HeaderNav",
         props: ['previous', 'current', 'next'],
@@ -40,6 +41,11 @@
 
             nextClass () {
                 return typeof this.next === 'undefined' ? 'btn-disabled' : 'btn';
+            }
+        },
+        methods: {
+            onPress (event) {
+                Event.dispatch(event);
             }
         }
     }
@@ -80,6 +86,7 @@
         margin-right: -1px;
         text-transform: uppercase;
         float: left;
+        cursor: default;
     }
 
     .btn-disabled a {

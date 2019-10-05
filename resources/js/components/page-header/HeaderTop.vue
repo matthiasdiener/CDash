@@ -1,11 +1,11 @@
 <template>
     <div id="headertop">
         <div id="topmenu" class="fill">
-            <a :class="{ 'hidden': loggedIn }"  href="/login">Login</a>
-            <a :class="{ 'hidden': loggedIn }"  href="register.php">Register</a>
-            <a :class="{ 'hidden': !loggedIn }" href="user.php">My CDash</a>
-            <a :class="{ 'hidden': !loggedIn, 'float-right' : true }" href="/logout">Log out</a>
-            <a :class="{ 'hidden': isHome}"   :href="menu.home">All Dashboards</a>
+            <a id="cdash-login-link" :class="{ 'hidden': loggedIn }"  :href="uri.login">Login</a>
+            <a id="cdash-register-link" :class="{ 'hidden': loggedIn }"  :href="uri.register">Register</a>
+            <a id="cdash-profile-link" :class="{ 'hidden': !loggedIn }" :href="uri.profile">My CDash</a>
+            <a id="cdash-logout-link" :class="{ 'hidden': !loggedIn, 'float-right' : true }" :href="uri.logout">Log out</a>
+            <a id="cdash-home-link" :class="{ 'hidden': isHome}"   :href="uri.home">All Dashboards</a>
         </div>
     </div>
 </template>
@@ -13,15 +13,15 @@
 <script>
     export default {
         name: "HeaderTop",
-        props: ['user', 'pathname', 'menu'],
+        props: ['uri', 'user'],
 
         computed: {
             loggedIn () {
-                return this.user && this.user.id;
+                return this.user.id > 0;
             },
 
             isHome () {
-                return this.menu.home === this.pathname;
+                return this.uri.home === this.uri.current;
             },
         },
     }

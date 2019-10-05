@@ -5,9 +5,13 @@
         </div>
         <div id="headername">
             <span class="projectname">{{ project }}</span>
-            <span class="pagename">{{ page }}</span>
+            <span class="pagename">{{ pagename }}</span>
         </div>
-        <HeaderNav></HeaderNav>
+        <HeaderNav
+            :previous="previous"
+            :current="current"
+            :next="next">
+        </HeaderNav>
         <HeaderMenu></HeaderMenu>
     </div>
 </template>
@@ -18,13 +22,15 @@
     export default {
         name: "HeaderBottom",
         components: {HeaderNav, HeaderMenu},
-        props: ['basePath'],
+        props: ['basePath', 'pagename', 'previous', 'current', 'next'],
+        methods: {
+
+        },
         data () {
             return {
                 logo: this.basePath ? `${this.basePath}/img/cdash.png` : '/img/cdash.png',
                 url: 'https://cdash.local',
                 project: 'CDash',
-                page: ''
             }
         },
     }

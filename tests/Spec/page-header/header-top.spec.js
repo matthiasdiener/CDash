@@ -1,18 +1,23 @@
-import { mount } from 'vue-test-utils';
+import {mount} from "@vue/test-utils";
 import HeaderTop from "../../../resources/js/components/page-header/HeaderTop.vue";
 import expect from 'expect';
 
 describe('HeaderTop', () => {
   let component;
+  const uri = {
+    home: '/home',
+    current: '/some/other/endpoint',
+    login: '/endpoint/to/login',
+    logout: '/endpoint/to/logout',
+    register: '/endpoint/to/register',
+    profile: '/user/profile/endpoint',
+  };
 
   beforeEach(() => {
     component = mount(HeaderTop, {
       propsData: {
         user: {},
-        pathname: '/api/v1/build/1234',
-        menu: {
-          home: 'viewProjects.php'
-        }
+        uri: uri,
       }
     });
   });
@@ -27,62 +32,29 @@ describe('HeaderTop', () => {
       expect(el.contains('#topmenu')).toBe(true);
   });
 
-  it('hides the "Login" link if user is logged in', () => {
-    const user = {id: 1};
-    const link = component.find('a[href="/login"]');
-    expect(link.text()).toBe('Login');
-    expect(link.classes()).not.toContain('hidden');
-
-    component.setData({user: user});
-    expect(link.classes()).toContain('hidden');
+  it('has a "Login" link', () => {
+    const el = component.find('#cdash-login-link');
+    expect(el.attributes('href')).toBe(uri.login);
   });
 
-  it('hides the "All Dashboards" link if url is not viewProjects.php', () => {
-    const link = component.find('a[href="viewProjects.php"]');
-    expect(link.classes()).not.toContain('hidden');
-
-    component.setData({
-      pathname: 'viewProjects.php',
-      menu: {
-        home: 'viewProjects.php'
-      }
-    });
-
-    expect(link.classes()).toContain('hidden');
+  it('has a "Register" link', () => {
+    const el = component.find('#cdash-register-link');
+    expect(el.attributes('href')).toBe(uri.register);
   });
 
-  it( 'hides the "Register" link if user is logged in', () => {
-    const user = {id: 1};
-    const link = component.find('a[href="register.php"]');
-
-    expect(link.classes()).not.toContain('hidden');
-
-    component.setData({user: user});
-
-    expect(link.classes()).toContain('hidden');
+  it('has a "My CDash" link', () => {
+    const el = component.find('#cdash-profile-link');
+    expect(el.attributes('href')).toBe(uri.profile);
   });
 
-  it('hides the "My CDash" link if user is not logged in', () => {
-    const user = {id: 1};
-    const link = component.find('a[href="user.php"]');
-    expect(link.text()).toBe('My CDash');
-
-    expect(link.classes()).toContain('hidden');
-
-    component.setData({user: user});
-
-    expect(link.classes()).not.toContain('hidden');
+  it('has a "Logout" link', () => {
+    const el = component.find('#cdash-logout-link');
+    expect(el.attributes('href')).toBe(uri.logout);
   });
 
-  it('hides the "Log out" link if user is not logged in', () => {
-    const user = {id: 1};
-    const link = component.find('a[href="/logout"]');
-    expect(link.text()).toBe('Log out');
+  it('has an "All Dashboards" link', () => {
+    const el = component.find('#cdash-home-link');
+    expect(el.attributes('href')).toBe(uri.home);
+  })
 
-    expect(link.classes()).toContain('hidden');
-
-    component.setData({user: user});
-
-    expect(link.classes()).not.toContain('hidden');
-  });
 });

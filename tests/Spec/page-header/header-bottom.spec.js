@@ -1,4 +1,4 @@
-import {mount} from "vue-test-utils";
+import {mount} from "@vue/test-utils";
 import HeaderBottom from "../../../resources/js/components/page-header/HeaderBottom.vue";
 import expect from 'expect';
 import HeaderNav from "../../../resources/js/components/page-header/HeaderNav.vue";
